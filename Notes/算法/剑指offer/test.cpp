@@ -1,33 +1,46 @@
 // for testing code
 #include <iostream>
+#include <vector>
 using namespace std;
 
-/* fibonacci problem
-int fibonacci_1(int n){
-    if(n==0){ return 0;}
-    if(n==1){ return 1;}
-    return fibonacci(n-1) + fibonacci(n-2);
-}
-long long fibonacci_2(int n){
-    long long result = 0;
-    long long temp_1 = 0;
-    long long temp_2 = 1;
-    long long temp_3 = 0;
-    if(n==0) { result = 0; return 0;}
-    if(n==1) { result = 1; return 1;}    
-    for(int i=2; i<=n; i++){
-        temp_3 = temp_2;
-        temp_2 = temp_1 + temp_2;
-        temp_1 = temp_3;
-        result = temp_2;
+class Solution{
+public:
+    vector<string> result;
+    int begin = 0;
+    vector<string> Combination(string str){
+        if(str.empty()){
+            return result;
+        }
+        Combination(str, result, begin);
+        return result;
     }
-    cout << result << endl;
-    return result;
-}
-*/
+    void Combination(string str, vector<string> & result, int begin){
+        // 终止条件
+        if(begin == str.size()-1){
+            cout << "terminated" << endl;
+            string last(1, str[begin]);
+            result.push_back(last);
+        }
+        else{
+            Combination(str, result, begin+1);
+            int result_length = result.size();
+            vector<string> temp = result;
+            cout << "testing" << endl;
+            string s(1, str[begin]);
+            for(int i=0; i<result_length; i++){
+                result.push_back(s+temp[i]);
+            }
+            result.push_back(s);
+        }           
+    }
+};
 
 int main(){
-    int n = 2;
-    cout << "n<<2:" << (n<<1) << endl;
-    cout << "n<<=2:" << (n <<= 1) << endl;
+    vector<string> result;
+    Solution a;
+    result = a.Combination("abcd");
+    for(int i=0; i<result.size(); i++){
+        cout << result[i] << endl;
+    }
+    cout << "total numbers: " << result.size();
 }
