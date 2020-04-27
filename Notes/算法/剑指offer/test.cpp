@@ -5,21 +5,20 @@ using namespace std;
 
 class Solution{
 public:
+    int solution_num = 0;
     vector<vector<int> > chessboard;
-    // 初始化为全0
-    // for(auto chessboard[i]: chessboard){
-    //     chessboard[i] = 0;
-    // }
-    // for(int i=0; i<8; i++){
-    //     for(int j=0; i<8; i++){
-    //         chessboard[i][j] = 0;
-    //     }
-    // }
+    vector<vector<int> > Eightqueens(){
+    }
 };
 
 int main(){
     Solution a;
     vector<vector<int> > chessboard;
+    for(int i=0; i<8; i++){
+        for(int j=0; j<8; j++){
+            a.chessboard[i][j] = 0;
+        }
+    }
     chessboard = a.chessboard;
-    cout << chessboard;
+    cout << chessboard.size();
 }
