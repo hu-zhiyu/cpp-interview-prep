@@ -1,8 +1,10 @@
-// for testing code
-#include <iostream>
-#include <vector>
-#include <math.h>
-using namespace std;
+/*
+ * @lc app=leetcode.cn id=1143 lang=cpp
+ *
+ * [1143] 最长公共子序列
+ */
+
+// @lc code=start
 class Solution {
 public:
     int longestCommonSubsequence(string text1, string text2) {
@@ -22,13 +24,5 @@ public:
         return len[len1][len2];       
     }
 };
-
-int main(){
-    Solution a;
-    string input1;
-    string input2;
-    cin >> input1 >> input2;
-    int result = a.longestCommonSubsequence(input1, input2);
-    cout << result << endl;
-}
+// @lc code=end
 
