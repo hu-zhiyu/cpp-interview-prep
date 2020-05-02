@@ -1,32 +1,23 @@
 // for testing code
 #include <iostream>
 #include <vector>
+#include <map>
+#include <unordered_map>
 using namespace std;
 class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
-        int len = s.size();
-        if(len==0){
-            return 0;
+        if(s.empty()) return 0;
+        if(s.size()==1) return 1;
+        unordered_map<char,int> m;
+        int head=0,res=0;
+        for(int tail=0;tail<s.size();++tail)
+        {
+            if(m.find(s[tail])!=m.end()) head=max(m[s[tail]], head);
+            m[s[tail]]=tail+1;
+            res=max(res,tail-head+1);
         }
-        if(len==1){
-            return 1;
-        }
-        int win_size = 0;
-        for(int i=0; i<len; i++){
-            for(int j=i; j<len; j++){
-                if(s.find(s[j+1], i)<=j && s.find(s[j+1], i)>=i ){
-                    if(j-i+1 > win_size){
-                        win_size = j-i+1;
-                    }
-                    break;
-                }
-                if(j-i+1 > win_size){
-                    win_size = j-i+1;
-                }
-            }
-        }
-        return win_size;
+        return res;
     }
 };
 
@@ -34,8 +25,7 @@ int main(){
     Solution a;
     string input1;
     cin >> input1;
-    int len = input1.size();
+    int len = a.lengthOfLongestSubstring(input1);
     cout << len << endl;
-    cout << input1[len];
 }
 
