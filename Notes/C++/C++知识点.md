@@ -271,5 +271,6 @@ class 类模板名
 #### 内存对齐及其原因
 #### 动态绑定的定义？怎么实现？
 #### 列表和链表的区别
+#### 以下两条语句的区别: head_next->next; (*head_next).next; (其中, head_next 为 listNode* 类型)
 
 

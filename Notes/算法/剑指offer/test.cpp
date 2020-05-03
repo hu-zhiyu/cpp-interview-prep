@@ -4,19 +4,21 @@
 #include <map>
 #include <unordered_map>
 using namespace std;
+struct listNode{
+    int val;
+    listNode* next;
+    listNode(int a) : val(a), next(nullptr) {}
+};
+
 class Solution {
 public:
-    int lengthOfLongestSubstring(string s) {
-        if(s.empty()) return 0;
-        if(s.size()==1) return 1;
-        unordered_map<char,int> m;
-        int head=0,res=0;
-        for(int tail=0;tail<s.size();++tail)
-        {
-            if(m.find(s[tail])!=m.end()) head=max(m[s[tail]], head);
-            m[s[tail]]=tail+1;
-            res=max(res,tail-head+1);
+    ListNode* reverseList(ListNode* head){
+        if(head == nullptr || head->next == nullptr){
+            return head; // 递归基
         }
+        ListNode* res = reverseList(head->next);
+        head->next->next = head;
+        head->next = nullptr;
         return res;
     }
 };
