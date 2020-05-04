@@ -12,22 +12,22 @@ struct listNode{
 
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head){
-        if(head == nullptr || head->next == nullptr){
-            return head; // 递归基
-        }
-        ListNode* res = reverseList(head->next);
-        head->next->next = head;
-        head->next = nullptr;
-        return res;
+    vector<int> a;
+    vector<vector<int>> b;
+    void a_init(vector<int> x = a){
+        x.push_back(2);
     }
+    void b_init(vector<vector<int>> y = b){
+        for(int i = 0; i < 3; i++){
+        y[i].push_back(2);
+    }
+    }
+    
 };
 
 int main(){
-    Solution a;
-    string input1;
-    cin >> input1;
-    int len = a.lengthOfLongestSubstring(input1);
-    cout << len << endl;
+    Solution S;
+    S.a_init();
+    S.b_init();
 }
 
