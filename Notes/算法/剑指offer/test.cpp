@@ -9,14 +9,17 @@
  */
 class Solution {
 public:
-    bool isSubStructure(TreeNode* A, TreeNode* B) {
-        if(A == nullptr || B == nullptr) return false;
-        return hasSubStructure(A, B) || isSubStructure(A->left, B) || isSubStructure(A->right, B);       
+    TreeNode* mirrorTree(TreeNode* root) {
+        if(root == nullptr) return root;
+        swap(root);
+        mirrorTree(root->left);
+        mirrorTree(root->right);
+        return root;
     }
-    bool hasSubStructure(TreeNode* A, TreeNode* B){
-        if(B == nullptr) return true;
-        if(A == nullptr) return false;
-        if((*A).val != (*B).val) return false;
-        return hasSubStructure(A->left, B->left) && hasSubStructure(A->right, B->right);
+    void swap(TreeNode* root){
+        TreeNode* temp;
+        temp = root->left;
+        root->left = root->right;
+        root->right = temp;
     }
 };
