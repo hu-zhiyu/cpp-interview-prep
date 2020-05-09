@@ -222,7 +222,7 @@ class 类模板名
 * 动态申请的内存区：存储在堆中
 #### length 和 sizeof 的区别，sizeof 的机制
 #### using namespace std; 这句话的作用
-#### new 和 malloc有什么区别？
+#### [new 和 malloc有什么区别？](https://blog.csdn.net/weixin_39411321/article/details/89311059)
 #### 参数传引用与传值的区别
 * 传值：形参的改变不会影响实参
 * 传引用：形参和实参是一回事
@@ -252,7 +252,7 @@ class 类模板名
 * 顶层const（top-level const）表示对象本身是个常量，底层const（low-level const）表示指针所指向/引用所绑定的对象是一个常量。
 #### 迭代器失效总结
 * 赋值相关运算会导致指向左边容器内部的迭代器、引用和指针失效。而swap操作将容器内容交换不会导致指向容器的迭代器、引用和指针失效（容器类型为array和string的情况除外）。
-* 向一个vector、string或deque插入元素会使所有指向容器的迭代器、引用和指针失效。
+* 向一个vector、string或deque插入元素会使所有指向容器的迭代器、引用和指针失效。（Q: 不发生容器内存重新分配也会全部失效吗？？？）
 * 删除deque中除首尾位置之外的任何元素都会使所有迭代器、引用和指针失效。指向vector或string中删除点之后位置的迭代器、引用和指针都会失效。
 * 如果resize缩小容器，则指向被删除元素的迭代器、引用和指针都会失效。对vector、string或deque进行resize可能导致迭代器、引用和指针失效。
 #### 为什么forward_list不支持push_back / pop_back操作？
@@ -261,6 +261,7 @@ class 类模板名
 #### 指针和数组的区别
 #### STL vector/string的底层实现，扩容实现
 #### C++11中的shared_ptr的底层实现
+[shared_ptr涉及到的循环引用问题](https://blog.csdn.net/qq_34992845/article/details/69218843)
 #### 写一个hashmap
 #### C语言动态内存分配的几种方式与比较 (malloc/calloc/realloc)
 #### C++函数为什么只有一个返回值，怎么返回的？函数参数保存在哪里？怎么入栈？有没有办法返回多个返回值？
@@ -272,5 +273,11 @@ class 类模板名
 #### 动态绑定的定义？怎么实现？
 #### 列表和链表的区别
 #### 以下两条语句的区别: head_next->next; (*head_next).next; (其中, head_next 为 listNode* 类型)
-
-
+#### C++的作用域与可见域
+#### [extern "C"的作用](https://www.cnblogs.com/xiangtingshen/p/10980055.html)
+* extern "C" 的主要作用就是为了能够正确实现C++代码调用其他C语言代码。加上extern "C" 后，会指示编译器这部分代码按C语言（而不是C++）的方式进行编译。由于C++支持函数重载，因此编译器编译函数的过程中会将函数的参数类型也加到编译后的代码中，而不仅仅是函数名；而C语言并不支持函数重载，因此编译C语言代码的函数时不会带上函数的参数类型，一般只包括函数名。
+#### push_back()会导致迭代器失效吗？
+#### 函数指针和指针函数的区别
+#### const和#define的区别
+#### volatile关键字
+#### 空悬指针 & 野指针
