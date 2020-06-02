@@ -3,37 +3,21 @@
 #include <queue>
 #include <string.h>
 using namespace std;
-class Solution {
-public:
-    bool verifyPostorder(vector<int>& postorder) {
-        if(postorder.empty()) return true;
-        return helper(postorder, 0, postorder.size()-1);
-    }
-    bool helper(vector<int>& postorder, int start, int end){
-        if(start == end) return true;
-        int l_start = start, l_end = end - 1, r_start = start, r_end = end - 1;
-        for(int i = start; i < end; i++){
-            if(postorder[i] < postorder[end]) l_end = i;
-        }
-        for(int i = start; i < end; i++){
-            if(postorder[i] > postorder[end]){
-                r_start = i;
-                break;
-            }
-        }        
-        if(l_end > r_start) return false;
-        else if(l_start == l_end && r_start == r_end) return true;
-        return helper(postorder, r_start, r_end) && helper(postorder, l_start, l_end); 
-    }
-};
+int Partition(vector<int>& nums, int begin, int end) {
+	int key = nums[end];//取最后一个
+	int i = begin - 1;
+	for (int j = begin; j < end; j++)
+	{
+		if (nums[j] <= key)
+		{
+			i++;
+			//i一直代表小于key元素的最后一个索引，当发现有比key小的a[j]时候，i+1 后交换     
+			swap(nums[i], nums[j]);
+		}
+	}
+	swap(nums[i + 1], nums[end]);//将key切换到中间来，左边是小于key的，右边是大于key的值。
+	return i + 1;
+}
 int main(){
-    Solution a;
-    vector<int> nums = {1,3,2,6,5};
-    // vector<int> nums = {4,8,6,12,16,14,10};
-    // vector<int> nums = {10};
-    bool result = a.verifyPostorder(nums);
-    cout << result << endl;
-    // for(int i = 0; i < result.size(); i++){
-    //     cout << result[i] << endl;
-    // }
+    
 }
