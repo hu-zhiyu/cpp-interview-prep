@@ -4,66 +4,24 @@
 #include <string.h>
 #include <cstdlib>
 using namespace std;
-struct TreeNode {
-	int val;
-	TreeNode *left;
-	TreeNode *right;
-	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-};
-class Codec {
+class Solution {
 public:
-    string strAns = "[";
-    // Encodes a tree to a single string.
-    string serialize(TreeNode* root) {
-        if(root == nullptr) return "[null]";
-        // 层序遍历
-        queue<TreeNode*> Q;
-        Q.push(root);
-        while(!Q.empty()){
-            TreeNode* temp = Q.front();
-            Q.pop();
-            if(temp) strAns += to_string((*temp).val);
-            else  strAns += "null";
-            strAns.push_back(',');
-            if(temp){
-                Q.push(temp->left);
-                Q.push(temp->right);
+    int maxValue(vector<vector<int>>& grid) {
+        if(grid.empty()) return 0;
+        vector<vector<int>> dp = grid;
+        for(int i = 0; i < grid.size(); i++){
+            for(int j = 0; j < grid[0].size(); j++){
+                if(i == 0 && j == 0) continue;
+                else if(i == 0) dp[i][j] += dp[i][j-1];
+                else if(j == 0) dp[i][j] += dp[i-1][j];
+                else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
             }
         }
-        strAns.erase(strAns.find_last_of(','));
-        strAns.push_back(']');
-        return strAns;
-    }
-
-    // Decodes your encoded data to tree.
-    TreeNode* deserialize(string data) {
-        TreeNode* root = nullptr;
-        TreeNode* temp = nullptr;
-        vector<TreeNode*> int_data;
-        int ptr1 = 1, ptr2, ptr3 = 1, ptr4 = 0;
-        while(ptr1 < data.size()){  // 将string转换为指针数组
-            if(data.find_first_of(',') != -1) ptr2 = data.find_first_of(',');
-            else ptr2 = data.size() - 1;
-            if(data.substr(ptr1, ptr2 - ptr1) == "null") int_data.push_back(nullptr);
-            else int_data.push_back(new TreeNode(stoi(data.substr(ptr1, ptr2 - ptr1))));
-            data.replace(ptr2, 1, " ");
-            ptr1 = ptr2 + 1;
-        }
-        root = int_data[0];
-        temp = root;
-        while(ptr3 < int_data.size()){  // 从层序遍历建树
-            if(temp){
-                temp->left = int_data[ptr3];
-                temp->right = int_data[ptr3 + 1];
-                ptr3 += 2;
-            }
-            temp = int_data[++ptr4];
-        }
-        return root;
+        return dp[grid.size() - 1][grid[0].size() - 1];
     }
 };
 int main(){
-    Codec a;
-	a.deserialize("[1,2,3,null,null,4,5]");
-	return 0;
+    Solution a;
+    a.translateNum(12258);
+	return 0; 
 }
