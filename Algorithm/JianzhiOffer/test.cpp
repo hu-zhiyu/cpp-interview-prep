@@ -3,25 +3,24 @@
 #include <queue>
 #include <string.h>
 #include <cstdlib>
+#include <unordered_map>
 using namespace std;
 class Solution {
 public:
-    int maxValue(vector<vector<int>>& grid) {
-        if(grid.empty()) return 0;
-        vector<vector<int>> dp = grid;
-        for(int i = 0; i < grid.size(); i++){
-            for(int j = 0; j < grid[0].size(); j++){
-                if(i == 0 && j == 0) continue;
-                else if(i == 0) dp[i][j] += dp[i][j-1];
-                else if(j == 0) dp[i][j] += dp[i-1][j];
-                else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+    int reversePairs(vector<int>& nums) {
+        int result = 0;
+        for(int i = 0; i < nums.size(); i++){
+            for(int j = i; j < nums.size(); j++){
+                if(nums[i] > nums[j])
+                    result++;
             }
         }
-        return dp[grid.size() - 1][grid[0].size() - 1];
+        return result;
     }
 };
 int main(){
     Solution a;
-    a.translateNum(12258);
+    vector<int> input = {7,5,6,4};
+    cout << a.reversePairs(input);
 	return 0; 
 }
