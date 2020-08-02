@@ -167,6 +167,39 @@ double imag(const double  im) { ... }  // ambiguity
 ### 继承 (inheritance)和组合 (composition)关系下的构造和析构
 * 构造由内而外，析构由外而内，先构造的后析构
 ```c
-Derived::Derived(...) : Base() {...}
-Derived::~Derived(...) {... ~Based()}
+// 继承关系
+Derived::Derived(...) : Base() {...}  // Base()由编译器加入
+Derived::～Derived(...) {... ～Based()}  // ～Base()由编译器加入
+
+// 复合关系
+Container::Container(...) : Component() {...}  // Component()由编译器加入
+Container::～Container(...) {... ～Component()}  // ～Component()由编译器加入
+
+// 继承和复合关系兼有
+Derived::Derived(...) : Base(), Component() {...}  // Base()和Component()由编译器加入
+Derived::～Derived(...) {... ～Component(), ～Based()}  // ～Component()和～Base()由编译器加入
 ```
+### 对象模型 (object model): 关于 vptr 和 vtbl, 以及dynamic binding
+* 动态绑定的底层调用代码
+```c
+(*(p->vptr)[n])(p);
+// 或
+(* p->vptr[n] )(p);
+
+```
+* 动态绑定的三个条件: 通过指针调用，指针所指向的对象是up-cast的，调用的函数是虚函数。
+* 示例
+```c
+// B 类继承自 A 类
+B b;
+A a = (A)b;
+a.vfunc();  // 这里是静态绑定，因为没有通过指针来调用，而是通过对象来调用
+```
+### 对象模型 (object model): 关于 this
+* template method
+### 关于 new/delete
+* new: 先分配memory，再调用ctor
+* delete: 先调用dtor，再释放memory
+* new/delete 底层是通过 malloc/free 来实现的
+* ::new/::delete 会绕过所有overloaded new/delete functions，强迫使用global version
+* placement new
