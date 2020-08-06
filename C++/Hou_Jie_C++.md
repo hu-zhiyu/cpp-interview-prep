@@ -133,7 +133,7 @@ XCls<double, unique_ptr> p2;  // 错误
 XCls<int, weak_ptr> p3;  // 错误
 XCls<long, auto_ptr> p4;  // 正确
 ```
-### 数量不定的模板参数 (variadic templates, since C++11)
+### 参数数量不定的模板 (variadic templates, since C++11)
 * 示例
 ```c
 void print() {
