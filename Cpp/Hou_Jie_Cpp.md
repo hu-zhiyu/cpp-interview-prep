@@ -108,7 +108,7 @@ public:
 ```
 ```c
 template<typename T>
-using Lst = list<T, allocator<T>>;  // C++11
+using Lst = list<T, allocator<T>>;  // alias template, C++11, 不能写在function body之内
 ```
 ```c
 XCls<string, list> mylst1;  // 错误用法，容器可能要接收多个模板参数
