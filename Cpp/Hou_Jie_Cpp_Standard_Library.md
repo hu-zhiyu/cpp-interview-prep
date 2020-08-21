@@ -49,3 +49,35 @@ _Ty _FARQ *_Allocate(_PDFT _N, _Ty _FARQ *) {
 }
 ```
 * allocator 只是以 ::operator new 和 ::operator delete 完成 allocate()和 deallocate()，没有任何特殊设计；::operator new 和 ::operator delete 背后又会去调用 CRT 提供的 malloc() 和 free() 完成内存的分配与释放。
+### 迭代器的设计原则和iterator traits的设计与作用
+* iterator 必须有能力回答 algorithm 的提问
+```c
+// iterator 必须要写出的 5 种 typedef
+iterator_category
+difference_type
+value_type
+reference
+pointer
+```
+* iterator traits 用以分离 class iterators 和 non-class iterators，是一个中间层的设计，利用 partial specialization 来达到目的
+```c
+template <class T>
+struct iterator_traits {  // 如果 I 是class iterator，进入这里
+    typedef typename I::value_type value_type;
+}
+// 以下为两个偏特化
+template <class T>
+struct iterator_traits<T*> {  // 如果 I 是 pointer to T，进入这里
+    typedef T value_type;
+}
+template <class T>
+struct iterator_traits<const T*> {  // 如果 I 是 pointer to const T，进入这里
+    typedef T value_type;  // 注意是 T 而不是 const T
+}
+// 于是当需要知道 I 的 value_type 时，可以这样写：
+template <typename I, ...>
+void algorithm(...) {
+    typename iterator_traits<T>::value_type v1;  // 通过中间层 iterator_traits 获取到 I 的value_type
+}
+```
+
