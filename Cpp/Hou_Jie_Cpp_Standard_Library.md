@@ -80,4 +80,33 @@ void algorithm(...) {
     typename iterator_traits<T>::value_type v1;  // 通过中间层 iterator_traits 获取到 I 的value_type
 }
 ```
-
+### vector
+### deque / stack / queue
+* deque 通过迭代器模拟成连续空间 (实质是分段连续)
+* stack 和 queue 都是在内部用 deque 实现的 (也可使用 list，但默认使用的 deque 更快)，stack 和 queue 都不允许遍历，也不提供 iterator
+* stack 可以选择 vector 作为底层实现，queue 不能选择 vector 作为底层实现
+* stack 和 queue 都不能选择 set 或 map 作为底层实现
+### RB-tree
+* Red-Black tree 是一种高度平衡的二叉搜索树，其排列规则有利于 search 和 insert
+* RB-tree 提供两种 insertion 操作：insert_unique() 和 insert_equal()，前者表示节点的 key 一定在整个树中独一无二，否则插入失效；后者表示节点的 key 可以重复
+* 容器 rb_tree (非公开)
+```c
+template <class Key,
+          class Value,
+          class KeyOfValue,
+          class Compare,
+          class Alloc = alloc>
+class rb_tree {
+protected:
+    typedef __rb_tree_node<Value> rb_tree_node;
+    ...
+public:
+    typedef rb_tree_node* link_type;
+    ...
+protected:
+    size_type node_count;  // rb_tree的节点数量
+    link_type header;  // header 指向的节点不放元素，方便实现
+    Compare key_compare;  // key的大小比较准则，是个function object
+    ...
+}
+```
