@@ -93,7 +93,7 @@ void algorithm(...) {
 ```c
 template <class Key,
           class Value,
-          class KeyOfValue,
+          class KeyOfValue,  // 用于从value取key
           class Compare,
           class Alloc = alloc>
 class rb_tree {
@@ -108,5 +108,80 @@ protected:
     link_type header;  // header 指向的节点不放元素，方便实现
     Compare key_compare;  // key的大小比较准则，是个function object
     ...
+}
+```
+### set/multiset
+* 以红黑树为底层数据结构，因此元素自动排序
+* 无法使用 set/multiset 的 iterator 改变元素值，因为 key 有其严谨的排列规则
+```c
+template <class Key,
+          class Compare = less<Key>
+          class Alloc = alloc>
+class set {
+public:
+    typedef Key key_type;
+    typedef Key value_type;
+    typedef Compare key_compare;
+    typedef Compare value_compare;
+private:
+    typedef rb_tree<key_type, value_type, identity<value_type>, key_compare, Alloc> rep_type;
+    rep_type t;
+public:
+    typedef typename rep_type::const_iterator iterator;  // 不能通过iterator改变元素，所以这里为const_iterator
+...  // set的所有操作，都是调用底层的t来进行操作，从这个角度看，set可看成一个container adapter
+}
+```
+### map/multimap
+* 以红黑树为底层数据结构，因此元素自动排序
+* 无法使用 map/multimap 的 iterator 改变元素的 key，但可以用它来改变元素的data
+```c
+template <class Key,
+          class T,
+          class Compare = less<Key>,
+          class Alloc = alloc>
+class map {
+public:  
+    typedef Key key_type;
+    typedef T data_type;
+    typedef T mapped_type;
+    typedef pair<const Key, T> value_type;
+    typedef Compare key_compare;
+private:
+    typedef rb_tree<key_type, value_type, select1st<value_type>, key_compare, Alloc> rep_type;
+    rep_type t;
+public:
+    typedef typename rep_type::iterator iterator;
+...
+}
+```
+* operator[] 是 map 独有的，multimap没有这个操作符
+### hashtable
+* separate chaining
+* 当元素数量大于 bucket 大小时，可以增加 bucket 大小(设定为质数)，然后对每一个元素做 rehash
+```c
+template <class Value, class Key, class HashFcn,
+          class ExtractKey, class EqualKey, class Alloc = alloc>
+class hashtable {
+public:
+    typedef HashFcn hasher;
+    typedef EqualKey key_equal;
+    typedef size_t size_type;
+private:
+    hasher hash;
+    key_euqal equals;
+    ExtractKey get_key;
+    typedef __hashtable_node<Value> node;
+    vector<node*, Alloc> buckets;
+    size_type num_elements;
+public:
+    size_type bucket_count() const {
+        return bucket.size();
+    } 
+}
+
+template <class Value>
+struct __hashtable_node {
+    __hashtable_node* next;
+    Value val;
 }
 ```
