@@ -185,3 +185,30 @@ struct __hashtable_node {
     Value val;
 }
 ```
+### 各种容器的 iterators 的 iterator_category
+```c
+struct input_iterator_tag {};
+struct output_iterator_tag {};
+struct forward_iterator_tag : public input_iterator_tag {};
+struct bidirectional_iterator_tag : public forward_iterator_tag {};
+struct random_access_iterator_tag : public bidirectional_iterator_tag {};
+```
+### for_each
+```c
+template <class InputIterator, class Function>
+Function for_each(InputIterator first, InputIterator last, Function f) {
+    for(; first != last; ++first) {
+        f(*first);
+    }
+    return f;
+}
+```
+### binary_search
+```c
+template <class ForwardIterator, class T>
+bool binary_search(ForwardIterator first, ForwardIterator last, const T& val) {
+    first = std::lower_bound(first, last, val);
+    return (first != last && !(val < *first>));
+}
+```
+### 仿函数functor
