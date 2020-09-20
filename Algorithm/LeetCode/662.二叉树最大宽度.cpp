@@ -21,43 +21,17 @@ public:
     int widthOfBinaryTree(TreeNode* root) {
         if(root == nullptr) return 0;
         if(root->left == nullptr && root->right == nullptr) return 1;
-        queue<TreeNode*> q;
-        q.push(root);
-        int width = 0;
-        vector<TreeNode*> vec;
+        queue<pair<TreeNode*, unsigned long long>> q;
+        q.push(pair(root, 0));
+        unsigned long long width = 0;
         while(!q.empty()) {
-            vector<TreeNode*> vec;
-            bool leftmostNode = true;
-            int counter = 0;
-            while(!q.empty()) {
-                TreeNode* temp = q.front();
-                vec.push_back(temp);
+            int curSize = q.size();
+            width = max(width, q.back().second - q.front().second + 1);
+            for(int i = 0; i < curSize; i++) {
+                pair<TreeNode*, unsigned long long> temp = q.front();
+                if(temp.first->left) q.push(pair(temp.first->left, 2 * temp.second + 1));
+                if(temp.first->right) q.push(pair(temp.first->right, 2 * temp.second + 2));
                 q.pop();
-            }
-            for(int i = 0; i < vec.size(); i++) {
-                if(vec[i]->left) {
-                    q.push(vec[i]->left);
-                    if(leftmostNode) {
-                        leftmostNode = false;
-                        counter = 0;
-                    }
-                }
-                counter++;
-                if(vec[i]->left) {
-                    if(width < counter) width = counter;
-                }
-                if(vec[i]->right) {
-                    q.push(vec[i]->right);
-                    if(leftmostNode) {
-                        leftmostNode = false;
-                        counter = 0;
-                    }
-                    if(width < counter) width = counter;
-                }
-                counter++;
-                if(vec[i]->right) {
-                    if(width < counter) width = counter;
-                }
             }
         }
         return width;
