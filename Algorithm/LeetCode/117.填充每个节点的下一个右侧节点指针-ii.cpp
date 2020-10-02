@@ -26,23 +26,19 @@ public:
 class Solution {
 public:
     Node* connect(Node* root) {
-        // BFS
-        if(root == nullptr) return nullptr;
-        queue<Node*> Q;
-        Q.push(root);
-        while(!Q.empty()){
-            Node* temp1;
-            int sizeQ = Q.size();
-            for(int i = 0; i < sizeQ; i++){
-                temp1 = Q.front();
-                Q.pop();
-                if(i != sizeQ - 1){
-                    Node* temp2 = Q.front();
-                    temp1->next = temp2;
-                }
-                if(temp1->left) Q.push(temp1->left);
-                if(temp1->right) Q.push(temp1->right);             
+        if(!root) return nullptr;
+        queue<Node*> q;
+        q.push(root);
+        while(!q.empty()) {
+            int sz = q.size();
+            for(int i = 0; i < sz; i++) {
+                Node* temp = q.front();
+                q.pop();
+                if(i != sz - 1) temp->next = q.front();
+                if(temp->left) q.push(temp->left);
+                if(temp->right) q.push(temp->right);
             }
+            
         }
         return root;
     }
